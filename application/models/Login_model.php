@@ -3,10 +3,10 @@
 class Login_model extends CI_Model
 {
 
-    public function ceklogin($user)
+    public function ceklogin($email)
     {
         $this->db->select('*');
-        $this->db->where('nama_user', $user);
+        $this->db->where('email', $email);
         $aksi = $this->db->get('user')->result_array();
         return $aksi;
     }

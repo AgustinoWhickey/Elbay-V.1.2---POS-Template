@@ -26,8 +26,8 @@
 					<div class="card-body">
 
 						<div class="form-group">
-							<label for="name">Username</label>
-							<input class="form-control" type="text" id="username" name="name" placeholder="Username" />
+							<label for="name">Email</label>
+							<input class="form-control" type="email" id="email" name="name" placeholder="Email" />
 						</div>
 						
 						<div class="form-group">
@@ -59,13 +59,13 @@
 		<script>
 			$(document).ready(function(){
 				$('#signin').click(function(){
-					var username = $('#username').val();
+					var email = $('#email').val();
 					var pass = $('#pass').val();
-					if(username != '' && pass != '' ){
+					if(email != '' && pass != '' ){
 						$.ajax({
 							type: "POST",
-							url: "<?php echo base_url('login/ceklogin') ?>",
-							data: "username="+username+"&password="+pass,
+							url: "<?php echo base_url('login/check_login') ?>",
+							data: "email="+email+"&password="+pass,
 							success: function(data){
 								if(data == 0){
 									swal("Login Gagal!","Pastikan Semua Benar","error");

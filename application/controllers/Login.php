@@ -12,34 +12,26 @@ class Login extends CI_Controller
 
     public function index()
     {
-		if(isset($_SESSION['logged_in'])){
-			redirect('home');
-		} else {
-			$this->load->view("login");
-		}
+      if(isset($_SESSION['logged_in'])){
+        redirect('home');
+      } else {
+        $this->load->view("login");
+      }
     }
 
-    public function ceklogin()
-    {
-		$aksi = $this->form->ceklogin($_POST['username']);
-        if(password_verify($_POST['password'],$aksi[0]["password"])){
-			$data = [
-				'id' => $aksi[0]['id_user'],
-				'username' => $aksi[0]['nama_user'],
-				'role' => $aksi[0]['role'],
-				'logged_in' => TRUE
-			];
-			$this->session->set_userdata($data);
-			echo 1;
-		} else {
-			echo 0;
-		}
+    public function check_login(){
+      $data = [
+        'email' => $this->input->post('email'),
+        'password' => $this->input->post('password'),
+        'X-API-KEY' => 'restapi123'
+      ];
+      return send_api('http://localhost/Elbay/Elbay-V.1.2/api/login', $data);
     }
 
     public function logout()
     {
         unset($_SESSION);
-		$this->session->sess_destroy();
-		redirect('login');	
+        $this->session->sess_destroy();
+        redirect('auth');	
     }
 }
