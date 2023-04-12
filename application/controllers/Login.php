@@ -7,7 +7,6 @@ class Login extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model("login_model","form");
     }
 
     public function index()
@@ -15,7 +14,11 @@ class Login extends CI_Controller
       if(isset($_SESSION['logged_in'])){
         redirect('home');
       } else {
-        $this->load->view("login");
+        $data['title'] 	= 'Admin Login Page';
+
+			  $this->load->view("templates/auth_header",$data);
+        $this->load->view("auth/login");
+        $this->load->view("templates/auth_footer");
       }
     }
 
@@ -25,7 +28,8 @@ class Login extends CI_Controller
         'password' => $this->input->post('password'),
         'X-API-KEY' => 'restapi123'
       ];
-      return send_api('http://localhost/Elbay/Elbay-V.1.2/api/login', $data);
+
+      api_data_post('http://localhost/Elbay/Elbay-V.1.2/api/login', $data);
     }
 
     public function logout()
