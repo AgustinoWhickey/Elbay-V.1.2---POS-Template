@@ -29,9 +29,15 @@ class Auth extends CI_Controller {
 	}
 
 	public function set_login(){
+		$userData = json_decode(api_data_get('http://localhost/Elbay/Elbay-V.1.2/api/login?email='.$this->input->get('email').'&X-API-KEY=restapi123'));
+
 		$data = [
-			'email' =>  $this->input->get('email'),
+			'email' => $userData->data[0]->email,
+			'user_id' => $userData->data[0]->id,
+			'name' => $userData->data[0]->name,
+			'role_id' => $userData->data[0]->role_id,
 		];
+		
 		$this->session->set_userdata($data);
 		redirect('admin');
 	}
@@ -217,9 +223,7 @@ class Auth extends CI_Controller {
 
 	public function logout(){
 		$this->session->unset_userdata('email');
-		$this->session->unset_userdata('role_id');
 
-		$this->session->set_flashdata('message','<div class="alert alert-success" role="alert">Congratulation! Your Have Been Logout!</div>');
 		redirect('auth');
 	}
 

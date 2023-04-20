@@ -87,7 +87,8 @@
       <li class="nav-item <?= $this->uri->segment(1) == 'user' ? 'active' : '' ?>">
         <a class="nav-link" href="<?= base_url('user'); ?>">
           <i class="fas fa-fw fa-user"></i>
-          <span>User</span></a>
+          <span>User</span>
+        </a>
       </li>
     <?php } ?>
 
@@ -95,9 +96,10 @@
     <hr class="sidebar-divider mt-3">
 
     <li class="nav-item">
-      <a class="nav-link" href="<?= base_url('auth/logout'); ?>">
+      <div class="nav-link" id="logout" style="cursor: pointer;">
         <i class="fas fa-fw fa-sign-out-alt"></i>
-        <span>Logout</span></a>
+        <span>Logout</span>
+    </div>
     </li>
 
     <!-- Divider -->

@@ -23,13 +23,6 @@ class Admin extends CI_Controller {
 		$data['total_item_terjual_bulan_ini'] = $getData->data->sales->total_item_terjual_bulan_ini;
 		$data['total_pengeluaran_bulan_ini'] = $getData->data->sales->total_pengeluaran_bulan_ini;
 		$data['title'] 	= 'Dashboard';
-
-		// echo "<pre>";
-		// print_r($array);
-		// echo "</pre>";
-
-		// $data['data'] = $getData[];
-		// $data['judul'] 	= 'Halaman Home';
 		
 		$this->load->view("templates/header",$data);
 		$this->load->view("templates/sidebar",$data);

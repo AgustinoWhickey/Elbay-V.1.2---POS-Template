@@ -80,21 +80,15 @@
  $listpengeluaran = json_encode($pengeluaran);
  ?> 
  
-
- <!-- Core plugin JavaScript-->
  <script src="<?= base_url(); ?>assets/vendor/jquery-easing/jquery.easing.min.js"></script>
 
- <!-- Custom scripts for all pages-->
  <script src="<?= base_url(); ?>assets/js/sb-admin-2.min.js"></script>
 
- <!-- Page level plugins -->
  <script src="<?= base_url(); ?>assets/vendor/datatables/jquery.dataTables.min.js"></script>
  <script src="<?= base_url(); ?>assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
  <script src="<?= base_url(); ?>assets/vendor/chart.js/Chart.min.js"></script>
  
- <!-- Page level custom scripts -->
  <script>
-   // Set new default font family and font color to mimic Bootstrap's default styling
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
@@ -233,7 +227,6 @@ var myLineChart = new Chart(ctx, {
 });
 
  </script>
- <script src="<?= base_url(); ?>assets/js/demo/datatables-demo.js"></script>
 
  <script>
    $('.custom-file-input').on('change',function(){
@@ -256,6 +249,23 @@ var myLineChart = new Chart(ctx, {
          document.location.href = "<?= base_url('admin/roleaccess/'); ?>"+roleId
        }
      });
+   });
+
+   $('#logout').on('click',function(){
+    swal({
+        title: "Anda yakin ingin logout?",
+        text: "Anda akan diarahkan ke halaman login",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willLogout)=>{
+        if(willLogout){
+          document.location.href = '<?php echo base_url('auth/logout') ?>';
+        }else{
+          swal("Anda Memilih Tidak Logout!","Tidak Jadi Logout","warning");
+        }
+      });
    });
  </script>
 

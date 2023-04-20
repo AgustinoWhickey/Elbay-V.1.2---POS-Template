@@ -21,10 +21,13 @@
 	  <link href="<?= base_url(); ?>assets/css/jquery.datetimepicker.css" rel="stylesheet">
 
 	  <!-- Bootstrap core JavaScript-->
-		<script src="<?= base_url(); ?>assets/vendor/jquery/jquery.min.js"></script>
-		<script src="<?= base_url(); ?>assets/js/select2.min.js"></script>
-		<script src="<?= base_url(); ?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-		<script src="<?= base_url(); ?>assets/js/jquery.datetimepicker.js"></script>
+	  <script src="<?= base_url(); ?>assets/vendor/jquery/jquery.min.js"></script>
+	  <script src="<?= base_url(); ?>assets/js/select2.min.js"></script>
+	  <script src="<?= base_url(); ?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	  <script src="<?= base_url(); ?>assets/js/jquery.datetimepicker.js"></script>
+
+	  <script src="<?= base_url(); ?>assets/js/demo/datatables-demo.js"></script>
+      <script src="<?= base_url(); ?>assets/sweetalert2/sweetalert.min.js"></script>
 
 	</head>
 
