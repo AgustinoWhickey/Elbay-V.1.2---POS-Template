@@ -131,7 +131,7 @@
               // console.log(data);
               var res = JSON.parse(data);
               if(res.status == true){
-                swal("Kategory Baru Berhasil Dihapus!","Hapus Data Sukses","success")
+                swal("Data Berhasil Dihapus!","Hapus Data Sukses","success")
                 .then((value) => {
                   location.reload();
                 });

@@ -98,3 +98,9 @@ function api_data_post($url, $params){
        redirect('auth');
    } 
  }
+
+ function indo_currency($nominal)
+ {
+	$result = "Rp. ".number_format($nominal, 0, ',', '.');
+	return $result;
+ }
