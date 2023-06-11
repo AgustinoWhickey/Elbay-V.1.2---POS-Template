@@ -2,16 +2,6 @@
   <div class="container-fluid">
 
     <div class="row">
-      <div class="col-lg-6">
-        <!-- Page Heading -->
-        <?php if(validation_errors()){ ?>
-            <h3>Tambah Data Gagal!</h3>
-            <div class="alert alert-danger" role="alert"><?= validation_errors(); ?></div>
-        <?php } else { ?>
-          <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
-        <?php } ?>
-        <?= $this->session->flashdata('message'); ?>
-      </div>
       <div class="col-lg-6 text-right">
         <a href="" class="btn btn-primary mb-3" id="add" data-toggle="modal" data-target="#itemMenuModal">
           <i class="fa fa-user-plus"></i>  Tambah Item
@@ -108,7 +98,7 @@
 					<button type="submit" class="btn btn-primary add-item-menu">Tambah</button>
           <button type="submit" class="btn btn-primary item-menu-edit" style="display:none;">Ubah</button>
 				</div>
-        </form>
+      </form>
 		</div>
 	</div>
 </div>

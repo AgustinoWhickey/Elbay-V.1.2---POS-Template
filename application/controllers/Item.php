@@ -37,8 +37,12 @@ class Item extends CI_Controller {
 	}
 
 	function get_ajax() {
-        $list = $this->item_m->get_datatables();
-        $data = array();
+		
+        $getData = json_decode(api_data_get('http://localhost/Elbay/Elbay-V.1.2/api/datatables/item?X-API-KEY=restapi123'));
+
+		if($getData) {
+		$list = $getData->data->data;
+		$data = array();
         $no = @$_POST['start'];
         foreach ($list as $item) {
             $no++;
@@ -52,107 +56,106 @@ class Item extends CI_Controller {
             $row[] = $item->price;
             $row[] = $item->stock;
             $row[] = $item->image != null ? '<img src="'.base_url('assets/img/upload/products/'.$item->image).'" class="img" style="width:100px">' : null;
-			$row[] = '<a href="'.base_url('item/edit/'.$item->id).'" class="btn btn-xs btn-info">Edit</a>
-						<form action="'.site_url('item/delete').'" method="post">
-							<input type="hidden" name="item_id" value="'.$item->id.'">
-							<input type="hidden" name="gambar" value="'.$item->image.'">
-							<button type="submit" onclick="return confirm(\'Apakah Anda yakin?\')" class="btn btn-xs btn-danger">Delete</button>
-						</form>';
+			$row[] = '<button type="button" class="btn btn-xs btn-info edit-item" data-id="'.$item->id.'">Edit</button>
+					 <button type="button" class="btn btn-xs btn-danger delete-item" data-id="'.$item->id.'">Delete</button>';
            $data[] = $row;
         }
         $output = array(
                     "draw" => @$_POST['draw'],
-                    "recordsTotal" => $this->item_m->count_all(),
-                    "recordsFiltered" => $this->item_m->count_filtered(),
+                    "recordsTotal" => $getData->data->count,
+                    "recordsFiltered" => $getData->data->count_filtered,
                     "data" => $data,
                 );
-        // output to json format
+		
         echo json_encode($output);
+			}
     }
 	
 	public function index()
 	{
-		// $data['title'] 		= 'Product Item Manajemen';
-		// $data['user'] 		= $this->login_m->ceklogin($this->session->userdata('email'));
-		// $data['items'] 		= $this->item_m->getItems();
-		// $data['unititems'] 	= $this->unit_item_m->getItems();
-		// $data['category'] 	= $this->category_m->getCategories();
+		
+		$getData = json_decode(api_data_get('http://localhost/Elbay/Elbay-V.1.2/api/item?email='.$this->session->userdata('email').'&X-API-KEY=restapi123'));
+		$user = (array) $getData->data->user[0];
 
-		// $this->form_validation->set_rules('name','Nama','required');
-		// $this->form_validation->set_rules('barcode','Kode','required|trim|is_unique[product_item.barcode]');
+		$data['title'] 		= 'Product Item Manajemen';
+		$data['user'] 		= $user;
+		$data['items'] 		= $getData->data->items;
+		$data['unititems'] 	= $getData->data->unititems;
+		$data['category'] 	= $getData->data->category;
 
-		// if($this->form_validation->run() == false){
-
-		// 	$this->load->view("templates/header",$data);
-		// 	$this->load->view("templates/sidebar",$data);
-		// 	$this->load->view("templates/topbar",$data);
-		// 	$this->load->view("product/item/index",$data);
-		// 	$this->load->view("templates/footer");
-		// } else {
-
-		// 	$image = '';
-		// 	$upload_image = $_FILES['image']['name'];
-
-		// 	if($upload_image){
-		// 		$config['allowed_types'] = 'gif|jpg|png';
-		// 		$config['max_size'] = '2048';
-		// 		$config['upload_path'] = './assets/img/upload/products';
-		// 		$config['file_name'] = 'img-'.$this->input->post('barcode');
-
-		// 		$this->load->library('upload',$config);
-		// 		if($this->upload->do_upload('image')){
-		// 			// unlink(FCPATH.'assets/img/upload/products/'.$this->upload->data('file_name'));
-		// 			$image = $this->upload->data('file_name');
-		// 		} else {
-		// 			$this->session->set_flashdata('message','<div class="alert alert-success" role="alert">'.$this->upload->display_errors().'</div>');
-		// 			redirect('item');
-		// 		}
-		// 	}
-
-		// 	$stockbahan = array();
-		// 	for($i=1;$i<=8;$i++){
-		// 		$bahan = 'bahan'.$i;
-		// 		$quantity = 'qty'.$i;
-		// 		if($this->input->post($bahan) != ''){
-		// 			$stock = $this->unit_item_m->getItem((int)$this->input->post($bahan));
-		// 			array_push($stockbahan, intval($stock->stock/(int)$this->input->post($quantity)));
-		// 		}
-		// 	}
-
-		// 	$data = [
-		// 		'barcode' => htmlspecialchars($this->input->post('barcode',true)),
-		// 		'name' => htmlspecialchars($this->input->post('name',true)),
-		// 		'category_id' => htmlspecialchars($this->input->post('kategori',true)),
-		// 		'price' => htmlspecialchars($this->input->post('harga',true)),
-		// 		'stock' => min($stockbahan),
-		// 		'image' => $image,
-		// 		'created' => time()
-		// 	];
-
-		// 	$this->db->insert('product_item', $data); 
-		// 	$insert_id = $this->db->insert_id();
-
-		// 	for($i=1;$i<=8;$i++){
-		// 		$bahan = 'bahan'.$i;
-		// 		$quantity = 'qty'.$i;
-		// 		if($this->input->post($bahan) != ''){
-		// 			$databahan = [
-		// 				'product_id' => (int)$insert_id,
-		// 				'item_id' => (int)$this->input->post($bahan),
-		// 				'qty' => (int)$this->input->post($quantity),
-		// 				'created' => time()
-		// 			];
-		// 			$this->db->insert('menu_item', $databahan);
-		// 		}
-		// 	}
-
-		// 	$this->session->set_flashdata('message','<div class="alert alert-success" role="alert">Item Baru Berhasil Ditambahkan!</div>');
-		// 	redirect('item');
-		// }
+		$this->load->view("templates/header",$data);
+		$this->load->view("templates/sidebar",$data);
+		$this->load->view("templates/topbar",$data);
+		$this->load->view("product/item/index",$data);
+		$this->load->view("templates/footer");
 	
 	}
 
-	public function edit($id_item)
+	public function input()
+	{
+		$image = '';
+		$upload_image = $_FILES['image']['name'];
+
+		if($upload_image){
+			$config['allowed_types'] = 'gif|jpg|png';
+			$config['max_size'] = '2048';
+			$config['upload_path'] = './assets/img/upload/products';
+			$config['file_name'] = 'img-'.$this->input->post('barcode');
+
+			$this->load->library('upload',$config);
+			if($this->upload->do_upload('image')){
+				$image = $this->upload->data('file_name');
+			} 
+		}
+
+		$items = (array) json_decode($this->input->post('items'));
+		$stockbahan = array();
+		foreach($items as $key => $val){
+			$getData = json_decode(api_data_get('http://localhost/Elbay/Elbay-V.1.2/api/itemmenu?email='.$this->session->userdata('email').'&id='.$key.'&X-API-KEY=restapi123'));
+			$data = (array) $getData->data->items;
+
+			array_push($stockbahan, intval($data['stock']/(int)$val));
+		}
+
+		$data = [
+			'barcode' => htmlspecialchars($this->input->post('barcode',true)),
+			'nama' => htmlspecialchars($this->input->post('nama',true)),
+			'kategori' => htmlspecialchars($this->input->post('kategori',true)),
+			'harga' => htmlspecialchars($this->input->post('harga',true)),
+			'stock' => min($stockbahan),
+			'image' => $image,
+			'created' => time(),
+			'X-API-KEY' => 'restapi123'
+		];
+
+		api_data_post('http://localhost/Elbay/Elbay-V.1.2/api/item', $data);
+
+	}
+
+	public function input_menu_item() 
+	{
+		$items = (array) json_decode($this->input->post('items'));
+		foreach($items as $key => $val){
+			$data = [
+				'product_id' => (int)$this->input->post('product'),
+				'item_id' => (int)$key,
+				'qty' => (int)$val,
+				'created' => time(),
+				'X-API-KEY' => 'restapi123'
+			];
+			api_data_post('http://localhost/Elbay/Elbay-V.1.2/api/menuitem', $data);
+		}
+	}
+
+	public function edit($id_item) 
+	{
+		$getData = json_decode(api_data_get('http://localhost/Elbay/Elbay-V.1.2/api/item?email='.$this->session->userdata('email').'&id='.$id_item.'&X-API-KEY=restapi123'));
+		$data = (array) $getData->data;
+
+		echo json_encode($data);
+	}
+
+	public function update($id_item)
 	{
 		$data['user'] 			= $this->login_m->ceklogin($this->session->userdata('email'));
 		$data['oneitem'] 		= $this->item_m->getItem($id_item);
