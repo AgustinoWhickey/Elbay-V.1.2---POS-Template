@@ -29,9 +29,7 @@ class ItemMenu extends CI_Controller {
 	public function input()
 	{
 		$image = '';
-		$upload_image = $_FILES['image']['name'];
-
-		if($upload_image){
+		if(isset($_FILES['image'])) {
 			$config['allowed_types'] = 'gif|jpg|png';
 			$config['max_size'] = '2048';
 			$config['upload_path'] = './assets/img/upload/items';
@@ -64,6 +62,15 @@ class ItemMenu extends CI_Controller {
 		
 	}
 
+	public function edit_menu_item($id)
+	{
+		$getData = json_decode(api_data_get('http://localhost/Elbay/Elbay-V.1.2/api/menuitem?email='.$this->session->userdata('email').'&id='.$id.'&X-API-KEY=restapi123'));
+		$data = (array) $getData->data->items;
+
+		echo json_encode($data);
+		
+	}
+
 	public function delete()
 	{
 		$data = [
@@ -82,16 +89,15 @@ class ItemMenu extends CI_Controller {
 	public function update()
 	{
 		$image = $this->input->post('image');
-		$upload_image = $_FILES['image']['name'];
 
-		if($upload_image){
+		if(isset($_FILES['image'])) {
 			$config['allowed_types'] = 'gif|jpg|png';
 			$config['max_size'] = '2048';
 			$config['upload_path'] = './assets/img/upload/items';
 			$config['file_name'] = 'img-'.$this->input->post('name');
 
 			$this->load->library('upload',$config);
-			$fileExt = pathinfo($upload_image, PATHINFO_EXTENSION);
+			$fileExt = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
 			if($image != ''){
 				unlink('./assets/img/upload/items/img-'.$this->input->post('name').'.'.$fileExt);
 			}

@@ -2,7 +2,7 @@
   <div class="container-fluid">
 
     <div class="row">
-      <div class="col-lg-6 text-right">
+      <div class="col-lg-12 text-right">
         <a href="" class="btn btn-primary mb-3" id="add" data-toggle="modal" data-target="#itemMenuModal">
           <i class="fa fa-user-plus"></i>  Tambah Item
         </a>

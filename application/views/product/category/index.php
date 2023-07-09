@@ -128,7 +128,6 @@
             url: "<?php echo base_url('category/delete') ?>",
             data: "id="+catId,
             success: function(data){
-              // console.log(data);
               var res = JSON.parse(data);
               if(res.status == true){
                 swal("Data Berhasil Dihapus!","Hapus Data Sukses","success")
