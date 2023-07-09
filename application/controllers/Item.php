@@ -11,10 +11,11 @@ class Item extends CI_Controller {
 
 	function get_product_by_category() {
 		if(isset($_POST['idcat'])){
-			$items = $this->item_m->getItemByCategory($_POST['idcat']);
+			$getData = json_decode(api_data_get('http://localhost/Elbay/Elbay-V.1.2/api/product?email='.$this->session->userdata('email').'&id='.$_POST['idcat'].'&X-API-KEY=restapi123'));
 		} else {
-			$items = $this->item_m->getItems();
+			$getData = json_decode(api_data_get('http://localhost/Elbay/Elbay-V.1.2/api/product?email='.$this->session->userdata('email').'&X-API-KEY=restapi123'));
 		}
+		$items = $getData->data->items;
 		$html = '';
 
 		foreach($items as $item){

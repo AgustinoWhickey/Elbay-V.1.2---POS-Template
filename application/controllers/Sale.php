@@ -11,11 +11,14 @@ class Sale extends CI_Controller {
 
     public function index()
 	{
-		$data['user'] 		= $this->login_m->ceklogin($this->session->userdata('email'));
-		$data['items'] 		= $this->item_m->getItems();
-		$data['invoice'] 	= $this->sale_m->getInvoice();
-		$data['cart'] 		= $this->sale_m->getCart();
-		$data['category'] 	= $this->category_m->getCategories();
+        $getData = json_decode(api_data_get('http://localhost/Elbay/Elbay-V.1.2/api/sale?email='.$this->session->userdata('email').'&X-API-KEY=restapi123'));
+		$user = (array) $getData->data->user[0];
+
+		$data['user'] 		= $user;
+		$data['items'] 		= $getData->data->items;
+		$data['invoice'] 	= $getData->data->invoice;
+		$data['cart'] 		= $getData->data->cart;
+		$data['category'] 	= $getData->data->category;
 		$data['title'] 		= 'Transaksi Penjualan';
 
 		$this->load->view("templates/header",$data);
