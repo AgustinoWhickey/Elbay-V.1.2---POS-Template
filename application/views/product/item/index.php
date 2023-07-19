@@ -357,7 +357,10 @@
                         location.reload();
                       });
                     }else{
-                      swal("Hapus Data Gagal!","Silahkan Coba Beberapa Saat Lagi","error");
+                      swal("Hapus Data Gagal!","Silahkan Coba Beberapa Saat Lagi","error")
+                      .then((value) => {
+                        location.reload();
+                      });
                     }
                   }
                 });

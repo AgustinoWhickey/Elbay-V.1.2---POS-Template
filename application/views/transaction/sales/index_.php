@@ -69,22 +69,26 @@
                 <h3 class="card-title">Products</h3>
               </div>
               <div class="card-body table-responsive p-0">
-                <table id="cart_table" class="table table-striped table-valign-middle detail-order">
-                  <thead>
-                  <tr>
+                <table class="table table-striped table-valign-middle">
+                <thead>
+                <tr>
                     <th>Item</th>
                     <th>Total</th>
                     <th>Harga</th>
                     <th>Hapus</th>
                   </tr>
                   </thead>
+                </table>
+                <table id="cart_table" class="table table-striped table-valign-middle detail-order">
                   <tbody>
-                  <tr>
-                    <td colspan="2">Total</td>
-                    <td id="grand_total"></td>
-                    <td></td>
-                  </tr>
                   </tbody>
+                  <tfoot class="table-active">
+                    <tr>
+                      <td colspan="2">Total</td>
+                      <td id="grand_total"></td>
+                      <td></td>
+                    </tr>
+                  </tfoot>
                 </table>
               </div>
               <div class="card-footer clearfix">
@@ -196,151 +200,141 @@
         var price = $(this).attr('price');
         var stock = $(this).attr('stock');
         var iditem = $(this).attr('iditem');
-        $('.detail-order tr:first').after('<tr><td>'+product+'</td><td><input id="cart_qty" iditem="'+iditem+'" product="'+product+'" stock="'+stock+'" price="'+price+'" type="number" value="1" style="width:65px"></td><td id="total">'+price+'</td><td><button id="del_cart" type="button" class="btn btn-danger float-right"><i class="fas fa-trash"></i></button></td></tr>');
+        $('.detail-order tbody').after('<tr><td>'+product+'</td><td><input id="cart_qty" iditem="'+iditem+'" product="'+product+'" stock="'+stock+'" price="'+price+'" type="number" value="1" style="width:65px"></td><td id="total">'+price+'</td><td><button id="del_cart" type="button" class="btn btn-danger float-right"><i class="fas fa-trash"></i></button></td></tr>');
         calculate();
       });
 
-        $(document).on('click', '#selectitem', function() {
-            var itemid = $(this).data('id');
-            var code = $(this).data('code');
-            var price = $(this).data('price');
-            var stock = $(this).data('stock');
-            $('#item_id').val(itemid);
-            $('#barcode').val(code);
-            $('#price').val(price);
-            $('#stock').val(stock);
-            $('#modal-item').modal('hide');
-        });
-
-        $(document).on('click', '#updatecart', function() {
-          var cartid = $(this).data('cartid');
-          var code = $(this).data('barcode');
-          var product = $(this).data('product');
-          var price = $(this).data('price');
-          var qty = $(this).data('qty');
-          var total = $(this).data('total');
-          var discount = $(this).data('discount');
-          $('#idcart').val(cartid);
-          $('#codecart').val(code);
-          $('#pricecart').val(price);
-          $('#qtycart').val(qty);
-          $('#discountcart').val(discount);
-          $('#totalcart').val(total);
-        });
-
-        $(document).on('change', '#qtycart', function() {
-          var qty = $(this).val();
-          var price = $('#pricecart').val();
-          var newtotal = parseInt(qty) * parseInt(price);
-          $('#totalcart').val(newtotal);
-        });
-
-        $(document).on('click', '#add_cart', function() {
-            var item_id = $('#item_id').val();
-            var price = $('#price').val();
-            var stock = $('#stock').val();
-            var qty = $('#qty').val();
-            var qty_cart = $('#qty_cart').val();
-            if(item_id == ''){
-              alert('Product belum dipilih');
-              $('#barcode').focus();
-            } else if(stock < 1 || parseInt(stock) < (parseInt(qty_cart) + parseInt(qty))){
-              alert('Stock tidak mencukupi');
-              $('#item_id').val('');
-              $('#barcode').val('');
-              $('#barcode').focus();
-            } else {
-              $.ajax({
-                type: 'POST',
-                url: '<?= site_url('sale/proses') ?>',
-                data: {'add_cart': true, 'item_id':item_id, 'price': price, 'qty':qty},
-                dataType: 'json',
-                success: function(result){
-                  console.log(result);
-                  if(result == 1){
-                    $('#cart_table').load('<?= site_url('sale/cart_data') ?>', function(){
-                      calculate();
-                      $('#item_id').val('');
-                      $('#barcode').val('');
-                      $('#barcode').focus();
-                      $('#qty').val(1);
-                    });
-                  }else {
-                    alert('Tambah cart gagal')
-                  }
-                }
-              });
+      $(document).on('click', '#add_cart', function() {
+        var item_id = $('#item_id').val();
+        var price = $('#price').val();
+        var stock = $('#stock').val();
+        var qty = $('#qty').val();
+        var qty_cart = $('#qty_cart').val();
+        if(item_id == ''){
+          alert('Product belum dipilih');
+          $('#barcode').focus();
+        } else if(stock < 1 || parseInt(stock) < (parseInt(qty_cart) + parseInt(qty))){
+          alert('Stock tidak mencukupi');
+          $('#item_id').val('');
+          $('#barcode').val('');
+          $('#barcode').focus();
+        } else {
+          $.ajax({
+            type: 'POST',
+            url: '<?= site_url('sale/proses') ?>',
+            data: {'add_cart': true, 'item_id':item_id, 'price': price, 'qty':qty},
+            dataType: 'json',
+            success: function(result){
+              if(result == 1){
+                $('#cart_table').load('<?= site_url('sale/cart_data') ?>', function(){
+                  calculate();
+                  $('#item_id').val('');
+                  $('#barcode').val('');
+                  $('#barcode').focus();
+                  $('#qty').val(1);
+                });
+              }else {
+                swal("Tambah cart gagal!","Silahkan Coba Beberapa Saat Lagi","error");
+              }
             }
-        });
-
-        $(document).on('click', '#del_cart', function() {
-          $(this).closest('tr').remove();
-        });
-
-        function calculate(){
-          var subtotal = 0;
-          var qtycart = 0;
-          $('#cart_table tr').each(function() {
-            if($(this).find('#total').text().length > 0){
-              subtotal += parseInt($(this).find('#total').text());
-              console.log($(this).find('#total').text());
-            }
-            // qtycart += parseInt($(this).find('#cart_qty').text());
           });
-          isNaN(subtotal) ? $('#grand_total').text(0) : $('#grand_total').text(subtotal);
         }
+      });
 
-        $(document).on('keyup mouseup', '#discount, #cash', function(){
-          calculate();
-        });
+      $(document).on('click', '#del_cart', function() {
+        $(this).closest('tr').remove();
+      });
 
-        $(document).on('click', '#process_payment', function(){
-          var discount = $('#diskon').val();
-          var grandtotal = $('#inputtotal').val();
-          var cash = $('#cash').val();
-          var change = $('#change').val();
-          var note = $('#note').val();
-
-          $('#cart_table tr').each(function() {
-            if($(this).find('#cart_qty').attr('product') != undefined){
-              $.ajax({
-                type: 'POST',
-                url: '<?= site_url('sale/proses') ?>',
-                data: {'add_cart': true, 'item_id':$(this).find('#cart_qty').attr('iditem'), 'price': $(this).find('#cart_qty').attr('price'), 'qty':$(this).find('#cart_qty').val()},
-                dataType: 'json',
-                success: function(result){
-                  if(result == 1){
-                    console.log(result);
-                  }else {
-                    alert('Tambah cart gagal');
-                  }
-                }
-              });
-            }
-          });
-
-          if(cash < 1){
-            alert('Jumlah uang cash belum diinput');
-          } else {
-            if(confirm('Yakin proses transaksi ini?')){
-              $.ajax({
-                type: 'POST',
-                url: '<?= site_url('sale/process_payment')?>',
-                data: {'discount': discount, 'grandtotal': grandtotal, 'cash':cash, 'change': change, 'note':note},
-                dataType: 'json',
-                success: function(result){
-                  if(result != null || result != ''){
-                    console.log(result);
-                    alert('Transaksi Berhasil!');
-                    window.open('<?= site_url('sale/cetak/')?>' + result, '_blank');
-                  } else {
-                    alert('Transaksi Gagal!');
-                  }
-                  location.href='<?= site_url('sale') ?>';
-                }
-              });
-            }
+      function calculate(){
+        var subtotal = 0;
+        var qtycart = 0;
+        $('#cart_table tr').each(function() {
+          if($(this).find('#total').text().length > 0){
+            subtotal += parseInt($(this).find('#total').text());
+            // console.log($(this).find('#total').text());
           }
         });
+        isNaN(subtotal) ? $('#grand_total').text(0) : $('#grand_total').text(subtotal);
+      }
+
+      $(document).on('keyup mouseup', '#discount, #cash', function(){
+        calculate();
+      });
+
+      $(document).on('click', '#process_payment', function(){
+        var discount = $('#diskon').val();
+        var grandtotal = $('#inputtotal').val();
+        var cash = $('#cash').val();
+        var change = $('#change').val();
+        var note = $('#note').val();
+
+        $('#cart_table tr').each(function() {
+          if($(this).find('#cart_qty').attr('product') != undefined){
+            $.ajax({
+              type: 'POST',
+              url: '<?= site_url('sale/addcart') ?>',
+              data: {
+                item_id: $(this).find('#cart_qty').attr('iditem'),
+                price: $(this).find('#cart_qty').attr('price'),
+                qty: $(this).find('#cart_qty').val()
+              },
+              success: function(data){
+                var res = JSON.parse(data);
+                if(res.status == true){
+                  if(cash < 1){
+                    swal("Jumlah uang cash belum diinput!","Silahkan input uang cash","warning");
+                  } else {
+                    swal({
+                    title: "Anda yakin ingin memproses transaksi ini?",
+                    text: "Jika sudah diproses, transaksi tidak akan bisa dikembalikan",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                  })
+                  .then((willProcess)=>{
+                    if(willProcess){
+                      $.ajax({
+                        type: 'POST',
+                        url: '<?= site_url('sale/add_sale')?>',
+                        data: {
+                          discount: discount,
+                          grandtotal: grandtotal,
+                          cash: cash,
+                          change: change,
+                          note: note
+                        },
+                        success: function(result){
+                          var res = JSON.parse(result);
+                          if(res.status == true){
+                            $.ajax({
+                              url: "<?= base_url('sale/process_payment'); ?>",
+                              type: 'post',
+                              data: {
+                                saleid: res.data,
+                              },
+                              success: function(data){
+                                swal("Transaksi Berhasil!","Transaksi Telah Diproses","success");
+                                window.open('<?= site_url('sale/cetak/')?>' + res.data, '_blank');
+                              }
+                            });
+                          } else {
+                            swal("Transaksi gagal!","Silahkan Cek Data Transaksi Lagi","error");
+                          }
+                          // location.href='<?= site_url('sale') ?>';
+                        }
+                      });
+                    }else{
+                      swal("Anda Memilih Tidak Menghapus!","Tidak Jadi Menghapus","warning");
+                    }
+                  });
+                  }
+                }else {
+                  swal("Tambah cart gagal!","Silahkan Coba Beberapa Saat Lagi","error");
+                }
+              }
+            });
+          }
+        });
+      });
     });
 </script>

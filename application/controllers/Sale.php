@@ -17,7 +17,6 @@ class Sale extends CI_Controller {
 		$data['user'] 		= $user;
 		$data['items'] 		= $getData->data->items;
 		$data['invoice'] 	= $getData->data->invoice;
-		$data['cart'] 		= $getData->data->cart;
 		$data['category'] 	= $getData->data->category;
 		$data['title'] 		= 'Transaksi Penjualan';
 
@@ -42,15 +41,18 @@ class Sale extends CI_Controller {
 		return $result; 
 	}
 
-	public function proses(){
-		$data = $this->input->post(null, TRUE);
+	public function addcart(){
 
-		if(isset($_POST['add_cart'])) {
-			$item_id = $this->input->post('item_id');
-			$result = $this->sale_m->addCart($data);
+        $data = [
+			'item_id' => htmlspecialchars($this->input->post('item_id',true)),
+			'price' => htmlspecialchars($this->input->post('price',true)),
+			'qty' => htmlspecialchars($this->input->post('qty',true)),
+            'user_id' => $this->session->userdata('user_id'),
+			'X-API-KEY' => 'restapi123'
+		];
 
-			return $result;
-		}
+        api_data_post('http://localhost/Elbay/Elbay-V.1.2/api/cart', $data);
+		
 	}
 
 	public function cart_data(){
@@ -66,14 +68,31 @@ class Sale extends CI_Controller {
 		return $result;
 	}
 
+    public function add_sale(){
+        $data = [
+			'discount' => $this->input->post('discount'),
+			'grandtotal' => $this->input->post('grandtotal'),
+			'cash' => $this->input->post('cash'),
+			'change' => $this->input->post('change'),
+			'note' => $this->input->post('note'),
+            'user_id' => $this->session->userdata('user_id'),
+			'X-API-KEY' => 'restapi123'
+		];
+
+        api_data_post('http://localhost/Elbay/Elbay-V.1.2/api/sale', $data);
+		
+	}
+
 	public function process_payment(){
 		$stockbahan = array();
-		$data = $this->input->post(null, TRUE);
-		$sale_id = $this->sale_m->add_sale($data);
-		$carts = $this->sale_m->getCart()->result();
-		$row = [];
+        $row = [];
+
+		$sale_id = $this->input->post('saleid');
+        $getData = json_decode(api_data_get('http://localhost/Elbay/Elbay-V.1.2/api/sale?email='.$this->session->userdata('email').'&id='.$this->session->userdata('user_id').'&X-API-KEY=restapi123'));
+		$carts = $getData->data->cart;
+
 		foreach($carts as $value){
-			array_push($row, array(
+			$cartDetail = [
 				'sale_id' => $sale_id,
 				'item_id' => $value->item_id,
 				'price' => $value->price,
@@ -81,41 +100,54 @@ class Sale extends CI_Controller {
 				'discount_item' => $value->discount_item,
 				'total' => $value->total,
 				'user_id' => $this->session->userdata('user_id'),
-				'created' => time()
-				)
-			);
+				'X-API-KEY' => 'restapi123'
+            ];
 
-			$stocks = $this->item_menu_m->getMenuItem((int)$value->item_id);
+            api_data_post('http://localhost/Elbay/Elbay-V.1.2/api/saledetail', $cartDetail);
 
-			foreach($stocks as $stock){
+            $getData = json_decode(api_data_get('http://localhost/Elbay/Elbay-V.1.2/api/item?email='.$this->session->userdata('email').'&id='.$value->item_id.'&X-API-KEY=restapi123'));
+            $stocks = (array) $getData->data;
+
+			foreach($stocks['onemenuitem'] as $stock){
 				$stockout = [
 					'item_id' => (int)$stock->item_id,
 					'qty' => $stock->qty,
+                    'X-API-KEY' => 'restapi123'
 				];
-				$this->unit_item_m->updateitemstockout($stockout);
 
-				$newstock = $this->unit_item_m->getItem((int)$stock->item_id);
-				array_push($stockbahan, intval($newstock->stock/$stock->qty));
+                api_data_put('http://localhost/Elbay/Elbay-V.1.2/api/unititem', $stockout);
 			} 
 
 			$stockout = [
 				'item_id' => $value->item_id,
 				'qty' => $value->qty,
+                'X-API-KEY' => 'restapi123'
 			];
-			$this->item_m->updatestockout($stockout);
+			api_data_put('http://localhost/Elbay/Elbay-V.1.2/api/item', $stockout);
 		}
-		$this->sale_m->add_sale_detail($row);
-		$this->sale_m->deleteCartbyUser();
 
-		echo $sale_id;
+        $data = [
+			'X-API-KEY' => 'restapi123',
+			'id' => $this->session->userdata('user_id'),
+		];
+
+        api_data_delete('http://localhost/Elbay/Elbay-V.1.2/api/cart/'.$this->session->userdata('user_id'), $data);
+		
 	}
 
 	public function cetak($id)
 	{
+        $getSaleData = json_decode(api_data_get('http://localhost/Elbay/Elbay-V.1.2/api/sale?email='.$this->session->userdata('email').'&id='.$id.'&X-API-KEY=restapi123'));
+		$saleData = $getSaleData->data->sale;
+
+        $getSaleDetailData = json_decode(api_data_get('http://localhost/Elbay/Elbay-V.1.2/api/saledetail?email='.$this->session->userdata('email').'&id='.$id.'&X-API-KEY=restapi123'));
+		$saleDetailData = $getSaleDetailData->data->saledetail;
+        
 		$data = array(
-			'sale' => $this->sale_m->getSale($id)->row(),
-			'sale_detail' => $this->sale_m->get_sale_detail($id)->result()
+			'sale' => $saleData,
+			'sale_detail' => $saleDetailData
 		);
+
 		$this->load->view('transaction/sales/receipt_print', $data);
 	}
 }
