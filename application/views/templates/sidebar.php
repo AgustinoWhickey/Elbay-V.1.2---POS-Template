@@ -52,7 +52,7 @@
       <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <a class="collapse-item" href="<?= base_url('sale'); ?>">Sales</a>
-          <a class="collapse-item" href="<?= base_url('stock/stockin'); ?>">Stock In</a>
+          <a class="collapse-item" href="<?= base_url('stockin'); ?>">Stock In</a>
           <!-- <a class="collapse-item" href="<?//= base_url('stock/stockout'); ?>">Stock Out</a> -->
         </div>
       </div>

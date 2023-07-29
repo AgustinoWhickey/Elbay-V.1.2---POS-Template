@@ -38,12 +38,10 @@ class Category extends CI_Controller {
 
 	public function edit($id_category)
 	{
-
 		$getData = json_decode(api_data_get('http://localhost/Elbay/Elbay-V.1.2/api/category?email='.$this->session->userdata('email').'&id='.$id_category.'&X-API-KEY=restapi123'));
 		$data = (array) $getData->data->categories;
 
 		echo json_encode($data);
-		
 	}
 
 	public function update()

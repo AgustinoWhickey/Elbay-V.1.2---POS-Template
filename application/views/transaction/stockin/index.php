@@ -3,14 +3,7 @@
 
     <div class="row">
       <div class="col-lg-6">
-        <!-- Page Heading -->
-        <?php if(validation_errors()){ ?>
-            <h3>Tambah Data Gagal!</h3>
-            <div class="alert alert-danger" role="alert"><?= validation_errors(); ?></div>
-        <?php } else { ?>
-          <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
-        <?php } ?>
-        <?= $this->session->flashdata('message'); ?>
+        <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
       </div>
       <div class="col-lg-6 text-right">
         <a data-toggle="modal" href="#newInputModal" class="btn btn-primary">
@@ -49,23 +42,22 @@
     						<td><?= $stock->item_qty.' '.$stock->item_unit; ?></td>
     						<td><?= date("d-m-Y",$stock->date); ?></td>
     						<td>
-                      <a data-toggle="modal" id="show_detail" href="#modal-detail" class="btn btn-xs btn-info" 
-                        data-id="<?= $stock->id; ?>" 
-                        data-name="<?= $stock->product_name; ?>" 
-                        data-unit="<?= $stock->unit; ?>" 
-                        data-item-qty="<?= $stock->item_qty; ?>" 
-                        data-item-unit="<?= $stock->item_unit; ?>" 
-                        data-price="<?= indo_currency($stock->unit_price); ?>" 
-                        data-detail="<?= $stock->detail; ?>" 
-                        data-supplier="<?= $stock->supplier_name; ?>" 
-                        data-inputdate="<?= date("d-m-Y",$stock->date); ?>" 
-                        data-qty="<?= $stock->unit_qty; ?>">
-                      Detail</a>
-                      <form action="<?= site_url('stock/stockin_delete')?>" method="post">
-                        <input type="hidden" name="idproduct" value="<?= $stock->item_id?>">
-                        <input type="hidden" name="idstock" value="<?= $stock->id?>">
-                        <button type="submit" onclick="return confirm('Apakah Anda yakin?')" class="btn btn-xs btn-danger">Delete</button>
-                      </form>
+                    <a data-toggle="modal" id="show_detail" href="#modal-detail" class="btn btn-xs btn-info" 
+                      data-id="<?= $stock->id; ?>" 
+                      data-name="<?= $stock->product_name; ?>" 
+                      data-unit="<?= $stock->unit; ?>" 
+                      data-item-qty="<?= $stock->item_qty; ?>" 
+                      data-item-unit="<?= $stock->item_unit; ?>" 
+                      data-price="<?= indo_currency($stock->unit_price); ?>" 
+                      data-detail="<?= $stock->detail; ?>" 
+                      data-supplier="<?= $stock->supplier_name; ?>" 
+                      data-inputdate="<?= date("d-m-Y",$stock->date); ?>" 
+                      data-qty="<?= $stock->unit_qty; ?>">
+                    Detail</a>
+                      <input type="hidden" name="idproduct" value="<?= $stock->item_id?>">
+                      <input type="hidden" name="idstock" value="<?= $stock->id?>">
+                      <button type="button" class="btn btn-xs btn-danger delete-stockin" data-id="<?= $stock->id?>">Delete</button>
+                    
                   </div>
     						</td>
     					</tr>
@@ -107,9 +99,6 @@
                             <a data-toggle="modal" href="#modal-item" class="btn btn-primary">
                                 <i class="fa fa-search"></i>
                             </a>
-                            <!-- <button class="btn btn-info btn-flat" type="button" data-toggle="modal" data-target="modal-item">
-                                <i class="fa fa-search"></i>
-                            </button> -->
                         </span>
                     </div>
 					  <div class="form-group">
@@ -156,7 +145,7 @@
 					<span aria-hidden="true"></span>
 				</button>
 			</div>
-			<form action="<?= base_url('stock/stockin'); ?>" method="post">
+			<form id="stockin-form" method="post">
 				<div class="modal-body"  style="height: 70vh; overflow-y:auto;">
             <div class="form-group">
               <label>Tanggal: </label>
@@ -198,7 +187,7 @@
             </div>
           <div class="form-group">
                 <label>Detail: </label>
-              <textarea class="form-control" id="detail" name="detail">Input Detail</textarea> 
+              <textarea class="form-control" id="detail" name="detail"></textarea> 
             </div>
 				</div>
 				<div class="modal-footer">
@@ -300,35 +289,97 @@
     $(document).ready(function() {
 
       $(document).on('click', '#selectstockin', function() {
-          var itemid = $(this).data('id');
-          var price = $(this).data('price');
-          var name = $(this).data('name');
-          var stock = $(this).data('stock');
-          $('#item_id').val(itemid);
-          $('#price').val(price);
-          $('#name').val(name);
-          $('#stock').val(stock);
-          $('#modal-item').modal('hide');
+        var itemid = $(this).data('id');
+        var price = $(this).data('price');
+        var name = $(this).data('name');
+        var stock = $(this).data('stock');
+        $('#item_id').val(itemid);
+        $('#price').val(price);
+        $('#name').val(name);
+        $('#stock').val(stock);
+        $('#modal-item').modal('hide');
       });
 
-        $(document).on('click', '#show_detail', function() {
-            var stockid = $(this).data('id');
-            var price = $(this).data('price');
-            var name = $(this).data('name');
-            var unit = $(this).data('unit');
-            var itemunit = $(this).data('item-unit');
-            var itemqty = $(this).data('item-qty');
-            var supplier = $(this).data('supplier');
-            var detail = $(this).data('detail');
-            var inputdate = $(this).data('inputdate');
-            var qty = $(this).data('qty');
-            $('#det_price').html(price);
-            $('#det_nama').html(name);
-            $('#det_supplier').html(supplier);
-            $('#det_qty').html(qty+' '+unit);
-            $('#det_unit_qty').html((qty*itemqty)+' '+itemunit);
-            $('#det_detail').html(detail);
-            $('#det_inputdate').html(inputdate);
+      $(document).on('click', '#show_detail', function() {
+        var stockid = $(this).data('id');
+        var price = $(this).data('price');
+        var name = $(this).data('name');
+        var unit = $(this).data('unit');
+        var itemunit = $(this).data('item-unit');
+        var itemqty = $(this).data('item-qty');
+        var supplier = $(this).data('supplier');
+        var detail = $(this).data('detail');
+        var inputdate = $(this).data('inputdate');
+        var qty = $(this).data('qty');
+        $('#det_price').html(price);
+        $('#det_nama').html(name);
+        $('#det_supplier').html(supplier);
+        $('#det_qty').html(qty+' '+unit);
+        $('#det_unit_qty').html((qty*itemqty)+' '+itemunit);
+        $('#det_detail').html(detail);
+        $('#det_inputdate').html(inputdate);
+      });
+
+      $('#stockin-form').submit(function(event) {
+        event.preventDefault(); 
+        var formData = new FormData(this); 
+
+        var item = $('#item').val();
+        if(item != ''){
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url('stockin/input') ?>",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data){
+                    var res = JSON.parse(data);
+                    if(res.status == true){
+                        swal("Stock In Berhasil Di Tambah", "Tambah Data Sukses","success")
+                        .then((value) => {
+                          location.reload();
+                        });
+                    }else{
+                        swal("Input Data Gagal!","Silahkan Coba Beberapa Saat Lagi","error");
+                    }
+                }
+            });
+        }else{
+        swal("Pastikan semua form sudah terisi!","Cek lagi form nama","warning");
+        }
+    });
+
+      $('.delete-stockin').on('click',function(){
+        const stockId = $(this).data('id');
+        swal({
+            title: "Anda yakin ingin menghapus data ini?",
+            text: "Data yang sudah dihapus tidak akan bisa dikembalikan",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete)=>{
+            if(willDelete){
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url('stockin/delete') ?>",
+                    data: "id="+stockId,
+                    success: function(data){
+                        var res = JSON.parse(data);
+                        if(res.status == true){
+                            swal("Data Berhasil Dihapus!","Hapus Data Sukses","success")
+                            .then((value) => {
+                            location.reload();
+                            });
+                        }else{
+                            swal("Hapus Data Gagal!","Silahkan Coba Beberapa Saat Lagi","error");
+                        }
+                    }
+                });
+            }else{
+                swal("Anda Memilih Tidak Menghapus!","Tidak Jadi Menghapus","warning");
+            }
         });
+      });
     });
 </script>
