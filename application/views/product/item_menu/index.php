@@ -37,7 +37,13 @@
                 <td><?= $it->stock; ?></td>
     						<td><?= $it->unit; ?></td>
     						<td><?= indo_currency($it->unit_price); ?></td>
-    						<td><img src=<?= base_url('assets/img/upload/items/'.$it->image) ?> class="img" style="width:100px"></td>
+    						<td>
+                  <?php if($it->image != '' || $it->image != null) { ?>
+                    <img src=<?= base_url('assets/img/upload/items/'.$it->image) ?> class="img" style="width:100px">
+                  <?php } else { ?>
+                    <img src="<?= base_url('assets/img/upload/products/default-product-img.jpg'); ?>" class="img" style="width:100px" />
+                  <?php } ?>
+                </td>
                 <td style="width: 15%;">
                   <button type="button" class="btn btn-xs btn-info edit-item-menu" data-id="<?= $it->id ?>">Edit</button>
                   <button type="button" class="btn btn-xs btn-danger delete-item-menu" data-id="<?= $it->id ?>" data-image="<?= $it->image ?>">Delete</button>

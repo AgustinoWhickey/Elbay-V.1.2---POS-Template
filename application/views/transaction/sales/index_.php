@@ -14,7 +14,7 @@
 
     <div class="card shadow mb-4">
       <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Proses Pemesanans</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Proses Pemesanan</h6>
       </div>
       <div class="card-body">
       <section class="content">
@@ -43,8 +43,12 @@
                           <div class="col mb-5">
                             <a href="#" id="item" stock="<?= $item->stock; ?>" iditem="<?= $item->id; ?>" product="<?= $item->name; ?>" price="<?= $item->price; ?>">
                               <div class="card h-100">
+                                <?php if($item->image != '') { ?>
                                   <img class="card-img-top" src="<?= base_url('assets/img/upload/products/'.$item->image); ?>" alt="..." />
-                                  <div class="card-body p-4">
+                                <?php } else { ?>
+                                  <img class="card-img-top" src="<?= base_url('assets/img/upload/products/default-product-img.jpg'); ?>" alt="..." />
+                                <?php } ?>
+                                <div class="card-body p-4">
                                       <div class="text-center">
                                           <h5 class="fw-bolder"><?= $item->name; ?></h5>
                                           <?= indo_currency($item->price); ?>

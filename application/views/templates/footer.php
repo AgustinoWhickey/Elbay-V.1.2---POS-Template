@@ -57,7 +57,6 @@
     $(document).ready(function() {
         var reportTable = $('#reportTable').DataTable( {
           "processing": true,
-          "serverSide": true,
           "ajax": {
               "url": "<?= site_url('report/get_ajax_sale'); ?>",
               "type": "POST",
