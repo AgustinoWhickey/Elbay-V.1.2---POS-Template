@@ -90,9 +90,20 @@
 						data: "iduser="+iduser+"&nama_user="+nameuser+"&role="+rolename,
 						success: function(data){
 							if(data != 1){
-								swal("Data Gagal Diubah!","Data Tidak Bisa Diubah","error");
+								Swal.fire({
+									icon: 'error',
+									title: 'Data Gagal Diubah!',
+									text: 'Data Tidak Bisa Diubah',
+									timer: 2000,
+								});
 							}else{
-								swal("Data Berhasil Diubah!","Data SUdah Diubah","success")
+								Swal.fire({
+									icon: 'warning',
+									title: 'Data Berhasil Diubah!',
+									text: 'Data SUdah Diubah',
+									timer: 2000,
+									showConfirmButton: false 
+								});
 								.then((value) => {
 								  document.location.href = '<?php echo base_url('dashboard/users') ?>';
 								});

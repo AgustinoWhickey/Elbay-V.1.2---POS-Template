@@ -2,13 +2,7 @@
 
     <div class="row">
       <div class="col-lg-6">
-        <?php if(validation_errors()){ ?>
-            <h3>Tambah Data Gagal!</h3>
-            <div class="alert alert-danger" role="alert"><?= validation_errors(); ?></div>
-        <?php } else { ?>
           <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
-        <?php } ?>
-        <?= $this->session->flashdata('message'); ?>
       </div>
     </div>
 
@@ -186,7 +180,12 @@
         var product = $(this).attr('product');
         var newtotal = parseInt(qty) * parseInt(price);
         if(qty > stock){
-          swal('Stock '+product+' kurang dari jumlah pesanan',"Silahkan input sesuai stock","warning");
+          Swal.fire({
+            icon: 'warning',
+            title: 'Stock '+product+' kurang dari jumlah pesanan',
+            text: 'Silahkan input sesuai stock',
+            timer: 2000,
+          });
           $(this).val(1);
         }
         $(this).parent().parent().find('#total').text(newtotal);
@@ -215,10 +214,20 @@
         var qty = $('#qty').val();
         var qty_cart = $('#qty_cart').val();
         if(item_id == ''){
-          alert('Product belum dipilih');
+          Swal.fire({
+            icon: 'warning',
+            title: 'Produk belum dipilih',
+            text: 'Silahkan pilih produk terlebih dahulu',
+            timer: 1500,
+          });
           $('#barcode').focus();
         } else if(stock < 1 || parseInt(stock) < (parseInt(qty_cart) + parseInt(qty))){
-          alert('Stock tidak mencukupi');
+          Swal.fire({
+            icon: 'warning',
+            title: 'Stock tidak mencukupi',
+            text: 'Silahkan cek stock produk terlebih dahulu',
+            timer: 1500,
+          });
           $('#item_id').val('');
           $('#barcode').val('');
           $('#barcode').focus();
@@ -238,7 +247,12 @@
                   $('#qty').val(1);
                 });
               }else {
-                swal("Tambah cart gagal!","Silahkan Coba Beberapa Saat Lagi","error");
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Tambah cart gagal!',
+                  text: 'Silahkan Coba Beberapa Saat Lagi',
+                  timer: 2000,
+                });
               }
             }
           });
@@ -255,7 +269,6 @@
         $('#cart_table tr').each(function() {
           if($(this).find('#total').text().length > 0){
             subtotal += parseInt($(this).find('#total').text());
-            // console.log($(this).find('#total').text());
           }
         });
         isNaN(subtotal) ? $('#grand_total').text(0) : $('#grand_total').text(subtotal);
@@ -286,9 +299,14 @@
                 var res = JSON.parse(data);
                 if(res.status == true){
                   if(cash < 1){
-                    swal("Jumlah uang cash belum diinput!","Silahkan input uang cash","warning");
+                    Swal.fire({
+                      icon: 'warning',
+                      title: 'Jumlah uang cash belum diinput!',
+                      text: 'Silahkan input uang cash',
+                      timer: 2000,
+                    });
                   } else {
-                    swal({
+                    Swal.fire({
                     title: "Anda yakin ingin memproses transaksi ini?",
                     text: "Jika sudah diproses, transaksi tidak akan bisa dikembalikan",
                     icon: "warning",
@@ -317,23 +335,46 @@
                                 saleid: res.data,
                               },
                               success: function(data){
-                                swal("Transaksi Berhasil!","Transaksi Telah Diproses","success");
-                                window.open('<?= site_url('sale/cetak/')?>' + res.data, '_blank');
+                                Swal.fire({
+                                  icon: 'success',
+                                  title: 'Transaksi Berhasil!',
+                                  text: 'Transaksi Telah Diproses',
+                                  timer: 2000,
+                                  showConfirmButton: false 
+                                })
+                                .then((value) => {
+                                  window.open('<?= site_url('sale/cetak/')?>' + res.data, '_blank');
+                                });
                               }
                             });
                           } else {
-                            swal("Transaksi gagal!","Silahkan Cek Data Transaksi Lagi","error");
+                            Swal.fire({
+                              icon: 'error',
+                              title: 'Transaksi gagal!',
+                              text: 'Silahkan Cek Data Transaksi Lagi',
+                              timer: 2000,
+                            });
                           }
-                          // location.href='<?= site_url('sale') ?>';
                         }
                       });
                     }else{
-                      swal("Anda Memilih Tidak Menghapus!","Tidak Jadi Menghapus","warning");
+                      Swal.fire({
+                        icon: 'warning',
+                        title: 'Anda Memilih Tidak Menghapus!',
+                        text: 'Tidak Jadi Menghapus',
+                        timer: 2000,
+                        showConfirmButton: false 
+                      });
                     }
                   });
                   }
                 }else {
-                  swal("Tambah cart gagal!","Silahkan Coba Beberapa Saat Lagi","error");
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Tambah cart gagal!',
+                    text: 'Silahkan Coba Beberapa Saat Lagi',
+                    timer: 2000,
+                  });
                 }
               }
             });

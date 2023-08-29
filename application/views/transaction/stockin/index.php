@@ -335,23 +335,40 @@
                 success: function(data){
                     var res = JSON.parse(data);
                     if(res.status == true){
-                        swal("Stock In Berhasil Di Tambah", "Tambah Data Sukses","success")
-                        .then((value) => {
-                          location.reload();
-                        });
+                      Swal.fire({
+                        icon: 'success',
+                        title: 'Stock In Berhasil Di Tambah!',
+                        text: 'Tambah Data Sukses',
+                        timer: 2000,
+                        showConfirmButton: false 
+                      })
+                      .then((value) => {
+                        location.reload();
+                      });
                     }else{
-                        swal("Input Data Gagal!","Silahkan Coba Beberapa Saat Lagi","error");
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Input Data Gagal!',
+                        text: 'Silahkan Coba Beberapa Saat Lagi',
+                        timer: 2000,
+                      });
                     }
                 }
             });
         }else{
-        swal("Pastikan semua form sudah terisi!","Cek lagi form nama","warning");
+          Swal.fire({
+            icon: 'warning',
+            title: 'Pastikan semua sudah terisi!',
+            text: 'Cek lagi form Anda',
+            timer: 2000,
+            showConfirmButton: false 
+          });
         }
     });
 
       $('.delete-stockin').on('click',function(){
         const stockId = $(this).data('id');
-        swal({
+        Swal.fire({
             title: "Anda yakin ingin menghapus data ini?",
             text: "Data yang sudah dihapus tidak akan bisa dikembalikan",
             icon: "warning",
@@ -367,17 +384,34 @@
                     success: function(data){
                         var res = JSON.parse(data);
                         if(res.status == true){
-                            swal("Data Berhasil Dihapus!","Hapus Data Sukses","success")
-                            .then((value) => {
+                          Swal.fire({
+                            icon: 'success',
+                            title: 'Data Berhasil Dihapus!',
+                            text: 'Hapus Data Sukses',
+                            timer: 2000,
+                            showConfirmButton: false 
+                          })
+                          .then((value) => {
                             location.reload();
-                            });
+                          });
                         }else{
-                            swal("Hapus Data Gagal!","Silahkan Coba Beberapa Saat Lagi","error");
+                          Swal.fire({
+                            icon: 'error',
+                            title: 'Hapus Data Gagal!',
+                            text: 'Silahkan Coba Beberapa Saat Lagi',
+                            timer: 2000,
+                          });
                         }
                     }
                 });
             }else{
-                swal("Anda Memilih Tidak Menghapus!","Tidak Jadi Menghapus","warning");
+              Swal.fire({
+                icon: 'warning',
+                title: 'Anda Memilih Tidak Menghapus!',
+                text: 'Tidak Jadi Menghapus',
+                timer: 2000,
+                showConfirmButton: false 
+              });
             }
         });
       });

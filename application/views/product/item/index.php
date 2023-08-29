@@ -263,7 +263,13 @@
     form_data.append('image', image);
     form_data.append('items', JSON.stringify(items));
     if(nama == '' && barcode == ''){
-      swal("Masukkan Nama Item atau Barcode terlebih dahulu!","Cek lagi form Anda","warning");
+      Swal.fire({
+        icon: 'warning',
+        title: 'Masukkan Nama Item atau Barcode terlebih dahulu!',
+        text: 'Cek lagi form Anda',
+        timer: 2000,
+        showConfirmButton: false 
+      });
     } else {
       $.ajax({
           url: url, 
@@ -283,7 +289,13 @@
                 items: JSON.stringify(items),
               },
               success: function(data){
-                swal("Item Menu Berhasil Di" + alertText, alertText + " Data Sukses","success")
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Item Menu Berhasil Di' + alertText,
+                  text: alertText + ' Data Sukses',
+                  timer: 2000,
+                  showConfirmButton: false 
+                })
                 .then((value) => {
                   location.reload();
                 });
@@ -291,7 +303,12 @@
             });
           },
           error: function (res) {
-            console.log(res);
+            Swal.fire({
+              icon: 'error',
+              title: 'Tambah Data Gagal!',
+              text: 'Silahkan coba beberapa saat lagi',
+              timer: 2000,
+            });
           }
       });
     }
@@ -313,7 +330,13 @@
 
       $("#tablebahan tbody").append(newdata);
     } else {
-      swal("Pilih bahan dan masukkan quantity terlebih dahulu!","Cek lagi form Anda","warning");
+      Swal.fire({
+        icon: 'warning',
+        title: 'Pilih bahan dan masukkan quantity terlebih dahulu!',
+        text: 'Cek lagi form Anda',
+        timer: 2000,
+        showConfirmButton: false 
+      });
     }
   });
 
@@ -324,7 +347,7 @@
   $(document).on('click', '.delete-item', function () {
     const itemId = $(this).data('id');
     const image = $(this).data('image');
-    swal({
+    Swal.fire({
         title: "Anda yakin ingin menghapus data ini?",
         text: "Data yang sudah dihapus tidak akan bisa dikembalikan",
         icon: "warning",
@@ -352,12 +375,23 @@
                   success: function(data){
                     var res = JSON.parse(data);
                     if(res.status == true){
-                      swal("Data Berhasil Dihapus!","Hapus Data Sukses","success")
+                      Swal.fire({
+                        icon: 'success',
+                        title: 'Data Berhasil Dihapus!',
+                        text: 'Hapus Data Sukses',
+                        timer: 2000,
+                        showConfirmButton: false 
+                      })
                       .then((value) => {
                         location.reload();
                       });
                     }else{
-                      swal("Hapus Data Gagal!","Silahkan Coba Beberapa Saat Lagi","error")
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Hapus Data Gagal!',
+                        text: 'Silahkan Coba Beberapa Saat Lagi',
+                        timer: 2000,
+                      })
                       .then((value) => {
                         location.reload();
                       });
@@ -365,12 +399,22 @@
                   }
                 });
               }else{
-                swal("Hapus Data Gagal!","Silahkan Coba Beberapa Saat Lagi","error");
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Hapus Data Gagal!',
+                  text: 'Silahkan Coba Beberapa Saat Lagi',
+                  timer: 2000,
+                });
               }
             }
           });
         }else{
-          swal("Anda Memilih Tidak Menghapus!","Tidak Jadi Menghapus","warning");
+          Swal.fire({
+            icon: 'warning',
+            title: 'Anda Memilih Tidak Menghapus!',
+            text: 'Tidak Jadi Menghapus',
+            timer: 2000
+          });
         }
       });
   });

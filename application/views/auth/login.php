@@ -23,9 +23,6 @@
   </div>
 </section>
 
-<script src="<?php echo base_url('assets/jquery/jquery.min.js') ?>"></script>
-<script src="<?php echo base_url('assets/sweetalert2/sweetalert.min.js') ?>"></script>
-
 <script>
 	$(document).ready(function(){
 		$('#signin').click(function(){
@@ -41,17 +38,34 @@
 						var res = JSON.parse(data);
 						console.log(res.status);
 						if(res.status == true){
-							swal("Login Sukses!","Selamat Datang","success")
+							Swal.fire({
+								icon: 'success',
+								title: 'Login Sukses!',
+								text: 'Selamat Datang',
+								timer: 2000,
+								showConfirmButton: false 
+							})
 							.then((value) => {
 								document.location.href = '<?php echo base_url('auth/set_login?email=') ?>'+email;
 							});
 						}else{
-							swal("Login Gagal!","Pastikan Semua Benar","error");
+							Swal.fire({
+								icon: 'error',
+								title: 'Login Gagal!',
+								text: 'Pastikan Semua Benar',
+								timer: 2000,
+							});
 						}
 					}
 				});
 			}else{
-				swal("Pastikan semua sudah terisi!","Cek lagi form Anda","warning");
+				Swal.fire({
+					icon: 'warning',
+					title: 'Pastikan semua sudah terisi!',
+					text: 'Cek lagi form Anda',
+					timer: 2000,
+					showConfirmButton: false 
+				});
 			}
 		});
 	});

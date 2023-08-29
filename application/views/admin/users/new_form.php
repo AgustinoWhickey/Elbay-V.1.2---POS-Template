@@ -89,9 +89,20 @@
 								data: "username="+username+"&password="+pass,
 								success: function(data){
 									if(data == 0){
-										swal("Registrasi Gagal!","Pastikan Password Sama","error");
+										Swal.fire({
+											icon: 'error',
+											title: 'Registrasi Gagal!',
+											text: 'Pastikan Password Sama',
+											timer: 2000,
+										});
 									}else{
-										swal("Registrasi Sukses!","Silahkan login","success")
+										Swal.fire({
+											icon: 'success',
+											title: 'Registrasi Sukses!',
+											text: 'Silahkan login',
+											timer: 2000,
+											showConfirmButton: false 
+										})
 										.then((value) => {
 										  document.location.href = '<?php echo base_url('dashboard/users') ?>';
 										});
@@ -99,10 +110,22 @@
 								}
 							});
 						}else{
-							swal("Pastikan Password Sudah Sama!","Cek lagi form Anda","warning");
+							Swal.fire({
+								icon: 'warning',
+								title: 'Pastikan Password Sudah Sama!',
+								text: 'Cek lagi form Anda',
+								timer: 2000,
+								showConfirmButton: false 
+							});
 						}
 					}else{
-						swal("Pastikan semua sudah terisi!","Cek lagi form Anda","warning");
+						Swal.fire({
+							icon: 'warning',
+							title: 'Pastikan semua sudah terisi!',
+							text: 'Cek lagi form Anda',
+							timer: 2000,
+							showConfirmButton: false 
+						});
 					}
 				});
 			});

@@ -18,6 +18,20 @@
   <!-- Custom styles for this template-->
   <link href="<?= base_url(); ?>assets/css/sb-admin-2.min.css" rel="stylesheet">
   <link href="<?= base_url(); ?>assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <link href="<?= base_url(); ?>assets/css/sweetalert2.min.css" rel="stylesheet">
+
+  <script src="<?php echo base_url('assets/jquery/jquery.min.js') ?>"></script>
+  <script src="<?php echo base_url('assets/sweetalert2/sweetalert2.min.js') ?>"></script>
+
+  <style>
+    .swal2-icon-content {
+        display: none !important;
+    }
+    .swal2-actions {
+      display: flex !important;
+      align-items: center !important;
+    }
+  </style>
 
 </head>
 

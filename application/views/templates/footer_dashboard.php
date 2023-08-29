@@ -252,20 +252,26 @@ var myLineChart = new Chart(ctx, {
    });
 
    $('#logout').on('click',function(){
-    swal({
-        title: "Anda yakin ingin logout?",
-        text: "Anda akan diarahkan ke halaman login",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      })
-      .then((willLogout)=>{
-        if(willLogout){
-          document.location.href = '<?php echo base_url('auth/logout') ?>';
-        }else{
-          swal("Anda Memilih Tidak Logout!","Tidak Jadi Logout","warning");
-        }
-      });
+    Swal.fire({
+      title: "Anda yakin ingin logout?",
+      text: "Anda akan diarahkan ke halaman login",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willLogout)=>{
+      if(willLogout){
+        document.location.href = '<?php echo base_url('auth/logout') ?>';
+      }else{
+        Swal.fire({
+					icon: 'warning',
+					title: 'Anda Memilih Tidak Logout!',
+					text: 'Tidak Jadi Logout',
+					timer: 2000,
+					showConfirmButton: false 
+				});
+      }
+    });
    });
  </script>
 

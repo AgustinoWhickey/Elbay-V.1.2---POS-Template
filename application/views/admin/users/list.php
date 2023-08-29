@@ -72,7 +72,7 @@
 		$(document).ready(function(){
 			$('td #deleteuser').click(function(){
 				var iduser = $(this).attr('iduser');
-				swal({
+				Swal.fire({
 					title: "Anda yakin ingin menghapus user ini?",
 					text: "Jika sudah dihapus, data tidak akan bisa dikembalikan",
 					icon: "warning",
@@ -87,9 +87,20 @@
 							data: "iduser="+iduser,
 							success: function(data){
 								if(data == 0){
-									swal("Data Gagal Dihapus!","Data Tidak Bisa Dihapus","error");
+									Swal.fire({
+										icon: 'error',
+										title: 'Data Gagal Dihapus!',
+										text: 'Data Tidak Bisa Dihapus',
+										timer: 2000,
+									});
 								}else{
-									swal("Data Berhasil Dihapus!","Data SUdah Dihapus","success")
+									Swal.fire({
+										icon: 'success',
+										title: 'Data Berhasil Dihapus!',
+										text: 'Data SUdah Dihapus',
+										timer: 2000,
+										showConfirmButton: false 
+									})
 									.then((value) => {
 									  document.location.href = '<?php echo base_url('dashboard/users') ?>';
 									});
@@ -97,7 +108,13 @@
 							}
 						});
 					}else{
-						swal("Anda Memilih Tidak Menghapus!","Tidak Jadi Menghapus","warning");
+						Swal.fire({
+							icon: 'warning',
+							title: 'Anda Memilih Tidak Menghapus!',
+							text: 'Tidak Jadi Menghapus',
+							timer: 2000,
+							showConfirmButton: false 
+						});
 					}
 				});
 			});

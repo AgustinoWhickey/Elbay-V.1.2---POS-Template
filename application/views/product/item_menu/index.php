@@ -174,12 +174,24 @@
       success: function(data) {
         var res = JSON.parse(data);
         if(res.status == true){
-          swal("Item Menu Berhasil Di" + alertText, alertText + " Data Sukses","success")
+          Swal.fire({
+            icon: 'success',
+            title: 'Item Menu Berhasil Di' + alertText,
+            text:  alertText + " Data Sukses",
+            timer: 2000,
+            showConfirmButton: false 
+          })
           .then((value) => {
             location.reload();
           });
         }else{
-          swal("Pastikan nama sudah terisi!","Cek lagi form nama","warning");
+          Swal.fire({
+            icon: 'warning',
+            title: 'Pastikan semua sudah terisi!',
+            text: 'Cek lagi form Anda',
+            timer: 2000,
+            showConfirmButton: false 
+          });
         }
       }
     });
@@ -188,7 +200,7 @@
   $('.delete-item-menu').on('click',function(){
     const itemId = $(this).data('id');
     const image = $(this).data('image');
-    swal({
+    Swal.fire({
         title: "Anda yakin ingin menghapus data ini?",
         text: "Data yang sudah dihapus tidak akan bisa dikembalikan",
         icon: "warning",
@@ -207,17 +219,34 @@
             success: function(data){
               var res = JSON.parse(data);
               if(res.status == true){
-                swal("Data Berhasil Dihapus!","Hapus Data Sukses","success")
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Data Berhasil Dihapus!',
+                  text: 'Hapus Data Sukses',
+                  timer: 2000,
+                  showConfirmButton: false 
+                })
                 .then((value) => {
                   location.reload();
                 });
               }else{
-                swal("Hapus Data Gagal!","Silahkan Coba Beberapa Saat Lagi","error");
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Hapus Data Gagal!',
+                  text: 'Silahkan Coba Beberapa Saat Lagi',
+                  timer: 2000,
+                });
               }
             }
           });
         }else{
-          swal("Anda Memilih Tidak Menghapus!","Tidak Jadi Menghapus","warning");
+          Swal.fire({
+            icon: 'warning',
+            title: 'Anda Memilih Tidak Menghapus!',
+            text: 'Tidak Jadi Menghapus',
+            timer: 2000,
+            showConfirmButton: false 
+          });
         }
       });
   });

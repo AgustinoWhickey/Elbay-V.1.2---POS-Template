@@ -2,13 +2,7 @@
 
     <div class="row">
       <div class="col-lg-6">
-        <?php if(validation_errors()){ ?>
-            <h3>Tambah Data Gagal!</h3>
-            <div class="alert alert-danger" role="alert"><?= validation_errors(); ?></div>
-        <?php } else { ?>
           <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
-        <?php } ?>
-        <?= $this->session->flashdata('message'); ?>
       </div>
       <div class="col-lg-6 text-right">
         <a href="" class="btn btn-primary mb-3" id="add" data-toggle="modal" data-target="#kategoriModal">
@@ -98,23 +92,40 @@
           var res = JSON.parse(data);
           console.log(res.status);
           if(res.status == true){
-            swal("Kategory Baru Berhasil Ditambahkan!","Input Data Sukses","success")
+            Swal.fire({
+              icon: 'success',
+              title: 'Kategory Baru Berhasil Ditambahkan!',
+              text: 'Input Data Sukses',
+              timer: 2000,
+              showConfirmButton: false 
+            })
             .then((value) => {
               location.reload();
             });
           }else{
-            swal("Input Data Gagal!","Silahkan Coba Beberapa Saat Lagi","error");
+            Swal.fire({
+              icon: 'error',
+              title: 'Input Data Gagal!',
+              text: 'Silahkan Coba Beberapa Saat Lagi',
+              timer: 2000,
+            });
           }
         }
       });
     }else{
-      swal("Pastikan nama sudah terisi!","Cek lagi form nama","warning");
+      Swal.fire({
+        icon: 'warning',
+        title: 'Pastikan nama sudah terisi!',
+        text: 'Cek lagi form Anda',
+        timer: 2000,
+        showConfirmButton: false 
+      });
     }
   });
 
   $('.delete-category').on('click',function(){
     const catId = $(this).data('id');
-    swal({
+    Swal.fire({
         title: "Anda yakin ingin menghapus data ini?",
         text: "Data yang sudah dihapus tidak akan bisa dikembalikan",
         icon: "warning",
@@ -130,17 +141,34 @@
             success: function(data){
               var res = JSON.parse(data);
               if(res.status == true){
-                swal("Data Berhasil Dihapus!","Hapus Data Sukses","success")
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Data Berhasil Dihapus!',
+                  text: 'Hapus Data Sukses',
+                  timer: 2000,
+                  showConfirmButton: false 
+                })
                 .then((value) => {
                   location.reload();
                 });
               }else{
-                swal("Hapus Data Gagal!","Silahkan Coba Beberapa Saat Lagi","error");
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Hapus Data Gagal!',
+                  text: 'Silahkan Coba Beberapa Saat Lagi',
+                  timer: 2000,
+                });
               }
             }
           });
         }else{
-          swal("Anda Memilih Tidak Menghapus!","Tidak Jadi Menghapus","warning");
+          Swal.fire({
+            icon: 'warning',
+            title: 'Anda Memilih Tidak Menghapus!',
+            text: 'Tidak Jadi Menghapus',
+            timer: 2000,
+            showConfirmButton: false 
+          });
         }
       });
   });
@@ -174,19 +202,35 @@
        },
         success: function(data){
           var res = JSON.parse(data);
-          // console.log(res.status);
           if(res.status == true){
-            swal("Kategory Baru Berhasil Diupdate!","Update Data Sukses","success")
+            Swal.fire({
+              icon: 'success',
+              title: 'Kategory Baru Berhasil Diupdate!',
+              text: 'Update Data Sukses',
+              timer: 2000,
+              showConfirmButton: false 
+            })
             .then((value) => {
               location.reload();
             });
           }else{
-            swal("Update Data Gagal!","Silahkan Coba Beberapa Saat Lagi","error");
+            Swal.fire({
+              icon: 'error',
+              title: 'Update Data Gagal!',
+              text: 'Silahkan Coba Beberapa Saat Lagi',
+              timer: 2000,
+            });
           }
         }
       });
     }else{
-      swal("Pastikan nama sudah terisi!","Cek lagi form nama","warning");
+      Swal.fire({
+        icon: 'warning',
+        title: 'Pastikan nama sudah terisi!',
+        text: 'Cek lagi form nama',
+        timer: 2000,
+        showConfirmButton: false 
+      });
     }
   });
 </script>

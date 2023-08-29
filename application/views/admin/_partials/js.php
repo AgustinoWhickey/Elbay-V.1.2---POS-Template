@@ -8,7 +8,7 @@
 <script src="<?php echo base_url('assets/chart.js/Chart.min.js') ?>"></script>
 <script src="<?php echo base_url('assets/datatables/jquery.dataTables.js') ?>"></script>
 <script src="<?php echo base_url('assets/datatables/dataTables.bootstrap4.js') ?>"></script>
-<script src="<?php echo base_url('assets/sweetalert2/sweetalert.min.js') ?>"></script>
+<script src="<?php echo base_url('assets/sweetalert2/sweetalert.min2.js') ?>"></script>
 
 <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>

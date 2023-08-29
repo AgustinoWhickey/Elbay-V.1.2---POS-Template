@@ -157,22 +157,42 @@
                     contentType: false,
                     success: function(data){
                         var res = JSON.parse(data);
-                        console.log(res.status);
                         if(res.status == true){
-                            swal("User Berhasil Di" + alertText, alertText + " Data Sukses","success")
+                            Swal.fire({
+								icon: 'success',
+								title: "User Berhasil Di" + alertText,
+								text: alertText + " Data Sukses",
+								timer: 2000,
+								showConfirmButton: false 
+							})
                             .then((value) => {
-                            location.reload();
+                                location.reload();
                             });
                         }else{
-                            swal("Input Data Gagal!","Silahkan Coba Beberapa Saat Lagi","error");
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Input Data Gagal!',
+                                text: 'Silahkan Coba Beberapa Saat Lagi',
+                                timer: 2000,
+                            });
                         }
                     }
                 });
             }else{
-                swal("Pastikan password sudah sesuai!","Cek lagi form password Anda","warning");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Pastikan password sudah sesuai!',
+                    text: 'Cek lagi form password Anda',
+                    timer: 2000,
+                });
             }
         } else {
-            swal("Pastikan semua form sudah terisi!","Cek lagi form Anda","warning");
+            Swal.fire({
+                icon: 'error',
+                title: 'Pastikan semua form sudah terisi!',
+                text: 'Cek lagi form Anda',
+                timer: 2000,
+            });
         }
     });
 
@@ -197,7 +217,7 @@
 
     $('.delete-user').on('click',function(){
         const userId = $(this).data('id');
-        swal({
+        Swal.fire({
             title: "Anda yakin ingin menghapus data ini?",
             text: "Data yang sudah dihapus tidak akan bisa dikembalikan",
             icon: "warning",
@@ -213,17 +233,34 @@
                     success: function(data){
                         var res = JSON.parse(data);
                         if(res.status == true){
-                            swal("Data Berhasil Dihapus!","Hapus Data Sukses","success")
+                            Swal.fire({
+								icon: 'success',
+								title: 'Data Berhasil Dihapus!',
+								text: 'Hapus Data Sukses',
+								timer: 2000,
+								showConfirmButton: false 
+							})
                             .then((value) => {
-                            location.reload();
+                                location.reload();
                             });
                         }else{
-                            swal("Hapus Data Gagal!","Silahkan Coba Beberapa Saat Lagi","error");
+                            Swal.fire({
+								icon: 'error',
+								title: 'Hapus Data Gagal!',
+								text: 'Silahkan Coba Beberapa Saat Lagi',
+								timer: 2000,
+							});
                         }
                     }
                 });
             }else{
-                swal("Anda Memilih Tidak Menghapus!","Tidak Jadi Menghapus","warning");
+                Swal.fire({
+					icon: 'warning',
+					title: 'Anda Memilih Tidak Menghapus!',
+					text: 'Tidak Jadi Menghapus',
+					timer: 2000,
+					showConfirmButton: false 
+				});
             }
         });
     });
