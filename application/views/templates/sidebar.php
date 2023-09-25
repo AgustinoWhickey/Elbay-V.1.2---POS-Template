@@ -1,25 +1,19 @@
-<!-- Sidebar -->
   <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-    <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
       <div class="sidebar-brand-icon">
         <img src="<?= base_url('assets/img/logo2.png') ?>" style="width: 88%;margin-left: -14px;margin-top: 22px;">
-        <!-- <i class="fas fa-code"></i> -->
       </div>
-      <!-- <div class="sidebar-brand-text mx-3">Point of Sales </div> -->
     </a>
 
-    <!-- Divider -->
     <hr class="sidebar-divider" style="border:none;">
 
-    <!-- Heading -->
     <div class="sidebar-heading" style="margin-top: 20px;">
       <b>Main Navigation</b>
     </div>
 
     <li class="nav-item <?= $this->uri->segment(1) == 'admin'|| $this->uri->segment(1) == '' ? 'active' : '' ?>">
-      <a class="nav-link" href="<?= base_url('admin'); ?>">
+      <a class="nav-link" href="<?= base_url('admin?status=tahunan'); ?>">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
     </li>
@@ -31,11 +25,11 @@
     </li> -->
 
     <li class="nav-item <?= $this->uri->segment(1) == 'item'|| $this->uri->segment(1) == 'category' ? 'active' : '' ?>">
-      <a class="nav-link <?= $this->uri->segment(1) == 'item'|| $this->uri->segment(1) == 'category' ? '' : 'collapsed' ?>" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseTwo">
+      <a class="nav-link <?= $this->uri->segment(1) == 'item'|| $this->uri->segment(1) == 'category' ? '' : 'collapsed' ?>" href="#" data-toggle="collapse" data-target="#collapseProduct" aria-expanded="true" aria-controls="collapseProduct">
         <i class="fas fa-fw fa-inbox"></i>
         <span>Products</span>
       </a>
-      <div id="collapseOne" class="collapse <?= $this->uri->segment(1) == 'item'|| $this->uri->segment(1) == 'category' ? 'show' : '' ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      <div id="collapseProduct" class="collapse <?= $this->uri->segment(1) == 'item'|| $this->uri->segment(1) == 'category' ? 'show' : '' ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <a class="collapse-item" href="<?= base_url('category'); ?>">Kategori</a>
           <a class="collapse-item" href="<?= base_url('item'); ?>">Menu</a>
@@ -45,11 +39,11 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTransaction" aria-expanded="true" aria-controls="collapseTransaction">
         <i class="fas fa-fw fa-shopping-cart"></i>
         <span>Transaction</span>
       </a>
-      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      <div id="collapseTransaction" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <a class="collapse-item" href="<?= base_url('sale'); ?>">Sales</a>
           <a class="collapse-item" href="<?= base_url('stockin'); ?>">Stock In</a>
@@ -60,14 +54,27 @@
 
     <?php if($this->session->userdata('role_id') == 1 || $this->session->userdata('role_id') == 2) { ?>
       <li class="nav-item <?= $this->uri->segment(1) == 'report' ? 'active' : '' ?>">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReport" aria-expanded="true" aria-controls="collapseReport">
           <i class="fas fa-fw fa-edit"></i>
           <span>Reports</span>
         </a>
-        <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseReport" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="<?= base_url('report/sales'); ?>">Sales</a>
             <a class="collapse-item" href="<?= base_url('stockreport'); ?>">Stocks</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item <?= $this->uri->segment(1) == 'branch' ? 'active' : '' ?>">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBranch" aria-expanded="true" aria-controls="collapseBranch">
+          <i class="fas fa-fw fa-home"></i>
+          <span>Cabang</span>
+        </a>
+        <div id="collapseBranch" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="<?= base_url('branch'); ?>">Kelola Cabang</a>
+            <a class="collapse-item" href="<?= base_url('branch/user'); ?>">Pegawai Cabang</a>
           </div>
         </div>
       </li>

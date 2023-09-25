@@ -39,7 +39,7 @@ class Auth extends CI_Controller {
 		];
 		
 		$this->session->set_userdata($data);
-		redirect('admin');
+		redirect('admin?status=tahunan');
 	}
 
 

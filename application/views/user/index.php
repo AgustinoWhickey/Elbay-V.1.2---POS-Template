@@ -25,6 +25,7 @@
                 <th>Nama</th>
                 <th>Email</th>
                 <th>Status</th>
+                <th>Role</th>
                 <th>Aksi</th>
             </thead>
             <tbody>
@@ -37,6 +38,7 @@
                         <td><?= $us->name; ?></td>
                         <td><?= $us->email; ?></td>
                         <td><?= $us->is_active == 1 ? "Aktif" : "Tidak Aktif";  ?></td>
+                        <td><?= $us->role;  ?></td>
                         <td>
                             <button type="button" class="btn btn-xs btn-info edit-user" data-id="<?= $us->id?>">Edit</button>
                             <button type="button" class="btn btn-xs btn-danger delete-user" data-id="<?= $us->id?>">Delete</button>
