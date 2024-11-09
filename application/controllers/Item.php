@@ -22,9 +22,9 @@ class Item extends CI_Controller {
 			$html .= '<div class="col mb-5">
 						<a href="#" id="item" iditem="'.$item->id.'" stock="'.$item->stock.'" product="'.$item->name.'" price="'.$item->price.'">
 						<div class="card h-100">
-							<img class="card-img-top" src="'.base_url('assets/img/upload/products/'.$item->image).'" alt="..." />
+							<img class="card-img-top" src="'.base_url('assets/img/upload/products/'.$item->image).'" alt="..." style"height:50%;" />
 							<div class="card-body p-4">
-								<div class="text-center">
+								<div class="text-center h6">
 									<h5 class="fw-bolder">'.$item->name.'</h5>
 									'.indo_currency($item->price).'
 								</div>

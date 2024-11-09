@@ -328,7 +328,7 @@
         if(item != ''){
             $.ajax({
                 type: "POST",
-                url: "<?php echo base_url('stockin/input') ?>",
+                url: "<?php echo base_url('StockIn/input') ?>",
                 data: formData,
                 processData: false,
                 contentType: false,

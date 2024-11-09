@@ -36,7 +36,7 @@
 					success: function(data){
 						// console.log(data);
 						var res = JSON.parse(data);
-						console.log(res.status);
+						// console.log(res.status);
 						if(res.status == true){
 							Swal.fire({
 								icon: 'success',

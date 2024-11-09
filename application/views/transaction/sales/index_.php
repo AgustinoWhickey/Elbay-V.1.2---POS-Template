@@ -32,7 +32,7 @@
                   <div class="tab-content" id="custom-tabs-three-tabContent">
                     <div class="tab-pane fade show active" id="semua" role="tabpanel" aria-labelledby="semua-tab">
                       <div class="container">
-                        <div id="prod-content" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-5">
+                        <div id="prod-content" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-6">
                         <?php foreach($items as $item){ ?>
                           <div class="col mb-5">
                             <a href="#" id="item" stock="<?= $item->stock; ?>" iditem="<?= $item->id; ?>" product="<?= $item->name; ?>" price="<?= $item->price; ?>">
@@ -195,7 +195,7 @@
       $(document).on('click', '.row #item', function() {
         $('.products').removeClass('col-12');
         $('.products').addClass('col-8');
-        $('#prod-content').removeClass('row-cols-xl-5');
+        $('#prod-content').removeClass('row-cols-xl-6');
         $('#prod-content').addClass('row-cols-xl-4');
         $('.order').show();
         

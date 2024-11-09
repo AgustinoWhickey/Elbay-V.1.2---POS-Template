@@ -375,6 +375,7 @@
                   success: function(data){
                     var res = JSON.parse(data);
                     if(res.status == true){
+                      console.log(res);
                       Swal.fire({
                         icon: 'success',
                         title: 'Data Berhasil Dihapus!',

@@ -74,16 +74,16 @@
         <div id="collapseBranch" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="<?= base_url('branch'); ?>">Kelola Cabang</a>
-            <a class="collapse-item" href="<?= base_url('branch/user'); ?>">Pegawai Cabang</a>
+            <a class="collapse-item" href="<?= base_url('userbranch'); ?>">Pegawai Cabang</a>
           </div>
         </div>
       </li>
 
-      <li class="nav-item <?= $this->uri->segment(1) == 'promosi' ? 'active' : '' ?>">
+      <!-- <li class="nav-item <?= $this->uri->segment(1) == 'promosi' ? 'active' : '' ?>">
         <a class="nav-link" href="<?= base_url('promosi'); ?>">
           <i class="fas fa-fw fa-bullhorn"></i>
           <span>Promosi</span></a>
-      </li>
+      </li> -->
 
       <li class="nav-item <?= $this->uri->segment(1) == 'supplier' ? 'active' : '' ?>">
         <a class="nav-link" href="<?= base_url('supplier'); ?>">
